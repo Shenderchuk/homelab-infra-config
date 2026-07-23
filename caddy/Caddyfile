@@ -1,2 +1,2 @@
-import /root/git/infra-config/caddy/snippets/*.caddy
-import /root/git/infra-config/caddy/sites/*.caddy
+import /opt/infra-config/caddy/snippets/*.caddy
+import /opt/infra-config/caddy/sites/*.caddy
