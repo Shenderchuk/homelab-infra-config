@@ -1,0 +1,10 @@
+# Placeholder for future wildcard TLS with Cloudflare DNS Challenge.
+# Keep API tokens and other secrets outside git.
+#
+# Example shape for later:
+#
+# (cloudflare_tls) {
+# 	tls {
+# 		dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+# 	}
+# }
