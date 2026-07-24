@@ -1,3 +1,3 @@
 http://navidrome.infra.shshx.net {
-	reverse_proxy portainer:4533/app/#
+	reverse_proxy portainer:4533
 }
