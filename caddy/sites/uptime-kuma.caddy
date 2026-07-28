@@ -1,0 +1,3 @@
+http://uptime-kuma.infra.shshx.net, http://uptime-kuma {
+	reverse_proxy 192.168.50.42:3001
+}

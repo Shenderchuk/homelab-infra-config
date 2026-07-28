@@ -1,0 +1,3 @@
+http://jellyfin.infra.shshx.net, http://jellyfin {
+	reverse_proxy 192.168.50.42:8096
+}

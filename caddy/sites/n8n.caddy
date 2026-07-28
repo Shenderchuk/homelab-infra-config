@@ -1,0 +1,3 @@
+http://n8n.infra.shshx.net, http://n8n {
+	reverse_proxy 192.168.50.42:5678
+}
