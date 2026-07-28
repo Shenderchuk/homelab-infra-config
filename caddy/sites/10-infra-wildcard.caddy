@@ -53,5 +53,48 @@
 		reverse_proxy 192.168.50.42:4533
 	}
 
+	@immich host immich.infra.shshx.net
+	handle @immich {
+		reverse_proxy 192.168.50.46:2283
+	}
+
+	@influxdb host influxdb.infra.shshx.net
+	handle @influxdb {
+		reverse_proxy 192.168.50.44:8086
+	}
+
+	@grafana host grafana.infra.shshx.net
+	handle @grafana {
+		reverse_proxy 192.168.50.43:3000
+	}
+
+	@pve01_n150 host pve01-n150.infra.shshx.net
+	handle @pve01_n150 {
+		reverse_proxy https://192.168.50.10:8006 {
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
+
+	@pve02_m80q host pve02-m80q.infra.shshx.net
+	handle @pve02_m80q {
+		reverse_proxy https://192.168.50.11:8006 {
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
+
+	@nas01_qnap host nas01-qnap.infra.shshx.net nashnas.infra.shshx.net
+	handle @nas01_qnap {
+		reverse_proxy 192.168.50.39:8080
+	}
+
+	@ha host ha.infra.shshx.net
+	handle @ha {
+		reverse_proxy 192.168.50.41:8123
+	}
+
 	respond "Unknown local service" 404
 }

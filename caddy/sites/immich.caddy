@@ -1,0 +1,3 @@
+http://immich {
+	reverse_proxy 192.168.50.46:2283
+}
