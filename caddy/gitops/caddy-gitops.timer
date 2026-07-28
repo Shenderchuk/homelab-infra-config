@@ -1,0 +1,12 @@
+[Unit]
+Description=Poll Git for Caddy config changes
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=1min
+RandomizedDelaySec=10s
+Persistent=true
+Unit=caddy-gitops.service
+
+[Install]
+WantedBy=timers.target
