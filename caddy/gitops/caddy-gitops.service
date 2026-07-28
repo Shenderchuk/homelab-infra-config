@@ -5,4 +5,5 @@ After=network-online.target
 
 [Service]
 Type=oneshot
+EnvironmentFile=-/etc/caddy/cloudflare.env
 ExecStart=/opt/infra-config/caddy/gitops/caddy-gitops-sync.sh

@@ -1,4 +1,4 @@
-http://navidrome.infra.shshx.net, http://navidrome {
+http://navidrome {
 	redir / /app/
 	reverse_proxy portainer.infra.shshx.net:4533
 }

@@ -1,0 +1,57 @@
+*.infra.shshx.net {
+	tls {
+		dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+	}
+
+	@portainer host portainer.infra.shshx.net
+	handle @portainer {
+		reverse_proxy https://192.168.50.42:9443 {
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
+
+	@homer host homer.infra.shshx.net
+	handle @homer {
+		reverse_proxy 192.168.50.42:80
+	}
+
+	@gitea host gitea.infra.shshx.net
+	handle @gitea {
+		reverse_proxy 192.168.50.42:3000
+	}
+
+	@uptime_kuma host uptime-kuma.infra.shshx.net
+	handle @uptime_kuma {
+		reverse_proxy 192.168.50.42:3001
+	}
+
+	@registry host registry.infra.shshx.net
+	handle @registry {
+		reverse_proxy 192.168.50.42:5000
+	}
+
+	@qbittorrent host qbittorrent.infra.shshx.net
+	handle @qbittorrent {
+		reverse_proxy 192.168.50.42:8085
+	}
+
+	@jellyfin host jellyfin.infra.shshx.net
+	handle @jellyfin {
+		reverse_proxy 192.168.50.42:8096
+	}
+
+	@n8n host n8n.infra.shshx.net
+	handle @n8n {
+		reverse_proxy 192.168.50.42:5678
+	}
+
+	@navidrome host navidrome.infra.shshx.net
+	handle @navidrome {
+		redir / /app/
+		reverse_proxy 192.168.50.42:4533
+	}
+
+	respond "Unknown local service" 404
+}
