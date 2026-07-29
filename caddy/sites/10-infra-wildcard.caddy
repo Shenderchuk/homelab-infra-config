@@ -90,6 +90,11 @@
 		}
 	}
 
+	@ap01_gtaxe16000 host ap01-gtaxe16000.infra.shshx.net
+	handle @ap01_gtaxe16000 {
+		reverse_proxy 192.168.50.2:80
+	}
+
 	@nas01_qnap host nas01-qnap.infra.shshx.net nashnas.infra.shshx.net
 	handle @nas01_qnap {
 		reverse_proxy 192.168.50.39:8080
