@@ -95,6 +95,11 @@
 		reverse_proxy 192.168.50.2:80
 	}
 
+	@sw01_crs310 host sw01-crs310.infra.shshx.net
+	handle @sw01_crs310 {
+		reverse_proxy 192.168.50.4:80
+	}
+
 	@nas01_qnap host nas01-qnap.infra.shshx.net nashnas.infra.shshx.net
 	handle @nas01_qnap {
 		reverse_proxy 192.168.50.39:8080
