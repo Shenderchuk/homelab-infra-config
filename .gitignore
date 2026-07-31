@@ -7,3 +7,4 @@
 *.bak
 caddy/data/
 caddy/config/
+input_data/
