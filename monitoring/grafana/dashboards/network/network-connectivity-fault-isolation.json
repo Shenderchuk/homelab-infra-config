@@ -2343,6 +2343,924 @@
                                                                                   "version":  "13.1.1"
                                                                               }
                                                             }
+                                               },
+                                  "panel-28":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Driver-level counters discovered in opnsense_igc for igc1.",
+                                                                "id":  28,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "OPNsense igc1 driver diagnostics",
+                                                                "vizConfig":  {
+                                                                                  "group":  "text",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "mode":  "markdown",
+                                                                                                               "content":  "This section uses the discovered `opnsense_igc` measurement for `igc1`. It is meant to correlate LAN drops with Intel igc driver counters. Current discovery found only `interface=igc1`; selecting another interface should return no data, not healthy zeroes."
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
+                                               },
+                                  "panel-29":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+                                                                                                          {
+                                                                                                              "kind":  "PanelQuery",
+                                                                                                              "spec":  {
+                                                                                                                           "hidden":  false,
+                                                                                                                           "query":  {
+                                                                                                                                         "datasource":  {
+                                                                                                                                                            "name":  "dersvir5pux34c"
+                                                                                                                                                        },
+                                                                                                                                         "group":  "influxdb",
+                                                                                                                                         "kind":  "DataQuery",
+                                                                                                                                         "spec":  {
+                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_igc\" and r._field == \"link_irq\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/ and r.interface =~ /^${interface:regex}$/)\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |\u003e keep(columns: [\"_time\", \"_value\", \"interface\"])\n  |\u003e group(columns: [\"interface\"])\n  |\u003e yield(name: \"igc_link_irq_current\")"
+                                                                                                                                                  },
+                                                                                                                                         "version":  "v0"
+                                                                                                                                     },
+                                                                                                                           "refId":  "A"
+                                                                                                                       }
+                                                                                                          }
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Last observed link_irq counter from opnsense_igc. A stable value is normal; increments can correlate with link or driver events.",
+                                                                "id":  29,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "igc1 link_irq current",
+                                                                "vizConfig":  {
+                                                                                  "group":  "stat",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+                                                                                                                                    "color":  {
+                                                                                                                                                  "mode":  "thresholds"
+                                                                                                                                              },
+                                                                                                                                    "thresholds":  {
+                                                                                                                                                       "mode":  "absolute",
+                                                                                                                                                       "steps":  [
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "green",
+                                                                                                                                                                         "value":  0
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "#EAB839",
+                                                                                                                                                                         "value":  1
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "red",
+                                                                                                                                                                         "value":  10
+                                                                                                                                                                     }
+                                                                                                                                                                 ]
+                                                                                                                                                   },
+                                                                                                                                    "unit":  "short",
+                                                                                                                                    "decimals":  null
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "colorMode":  "value",
+                                                                                                               "graphMode":  "area",
+                                                                                                               "justifyMode":  "auto",
+                                                                                                               "orientation":  "auto",
+                                                                                                               "percentChangeColorMode":  "standard",
+                                                                                                               "reduceOptions":  {
+                                                                                                                                     "calcs":  [
+                                                                                                                                                   "lastNotNull"
+                                                                                                                                               ],
+                                                                                                                                     "fields":  "",
+                                                                                                                                     "values":  false
+                                                                                                                                 },
+                                                                                                               "showPercentChange":  false,
+                                                                                                               "textMode":  "auto",
+                                                                                                               "wideLayout":  true
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
+                                               },
+                                  "panel-30":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+                                                                                                          {
+                                                                                                              "kind":  "PanelQuery",
+                                                                                                              "spec":  {
+                                                                                                                           "hidden":  false,
+                                                                                                                           "query":  {
+                                                                                                                                         "datasource":  {
+                                                                                                                                                            "name":  "dersvir5pux34c"
+                                                                                                                                                        },
+                                                                                                                                         "group":  "influxdb",
+                                                                                                                                         "kind":  "DataQuery",
+                                                                                                                                         "spec":  {
+                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_igc\" and r._field == \"watchdog_timeouts\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/ and r.interface =~ /^${interface:regex}$/)\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |\u003e keep(columns: [\"_time\", \"_value\", \"interface\"])\n  |\u003e group(columns: [\"interface\"])\n  |\u003e yield(name: \"igc_watchdog_timeouts_current\")"
+                                                                                                                                                  },
+                                                                                                                                         "version":  "v0"
+                                                                                                                                     },
+                                                                                                                           "refId":  "A"
+                                                                                                                       }
+                                                                                                          }
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Last observed watchdog_timeouts counter. Any positive value indicates driver watchdog activity.",
+                                                                "id":  30,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "igc1 watchdog timeouts",
+                                                                "vizConfig":  {
+                                                                                  "group":  "stat",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+                                                                                                                                    "color":  {
+                                                                                                                                                  "mode":  "thresholds"
+                                                                                                                                              },
+                                                                                                                                    "thresholds":  {
+                                                                                                                                                       "mode":  "absolute",
+                                                                                                                                                       "steps":  [
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "green",
+                                                                                                                                                                         "value":  0
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "#EAB839",
+                                                                                                                                                                         "value":  0.001
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "red",
+                                                                                                                                                                         "value":  1
+                                                                                                                                                                     }
+                                                                                                                                                                 ]
+                                                                                                                                                   },
+                                                                                                                                    "unit":  "short",
+                                                                                                                                    "decimals":  null
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "colorMode":  "value",
+                                                                                                               "graphMode":  "area",
+                                                                                                               "justifyMode":  "auto",
+                                                                                                               "orientation":  "auto",
+                                                                                                               "percentChangeColorMode":  "standard",
+                                                                                                               "reduceOptions":  {
+                                                                                                                                     "calcs":  [
+                                                                                                                                                   "lastNotNull"
+                                                                                                                                               ],
+                                                                                                                                     "fields":  "",
+                                                                                                                                     "values":  false
+                                                                                                                                 },
+                                                                                                               "showPercentChange":  false,
+                                                                                                               "textMode":  "auto",
+                                                                                                               "wideLayout":  true
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
+                                               },
+                                  "panel-31":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+                                                                                                          {
+                                                                                                              "kind":  "PanelQuery",
+                                                                                                              "spec":  {
+                                                                                                                           "hidden":  false,
+                                                                                                                           "query":  {
+                                                                                                                                         "datasource":  {
+                                                                                                                                                            "name":  "dersvir5pux34c"
+                                                                                                                                                        },
+                                                                                                                                         "group":  "influxdb",
+                                                                                                                                         "kind":  "DataQuery",
+                                                                                                                                         "spec":  {
+                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_igc\")\n  |\u003e filter(fn: (r) =\u003e r._field == \"watchdog_timeouts\" or r._field == \"crc_errs\" or r._field == \"symbol_errors\" or r._field == \"recv_errs\" or r._field == \"missed_packets\" or r._field == \"rx_overruns\" or r._field == \"dropped\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/ and r.interface =~ /^${interface:regex}$/)\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |\u003e group(columns: [\"interface\", \"_field\"])\n  |\u003e last()\n  |\u003e group(columns: [\"interface\"])\n  |\u003e sum(column: \"_value\")\n  |\u003e keep(columns: [\"_time\", \"_value\", \"interface\"])\n  |\u003e yield(name: \"igc_error_counter_sum\")"
+                                                                                                                                                  },
+                                                                                                                                         "version":  "v0"
+                                                                                                                                     },
+                                                                                                                           "refId":  "A"
+                                                                                                                       }
+                                                                                                          }
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Sum of latest watchdog, CRC, symbol, receive, missed, overrun, and dropped counters. link_irq is excluded.",
+                                                                "id":  31,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "igc1 error counter sum",
+                                                                "vizConfig":  {
+                                                                                  "group":  "stat",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+                                                                                                                                    "color":  {
+                                                                                                                                                  "mode":  "thresholds"
+                                                                                                                                              },
+                                                                                                                                    "thresholds":  {
+                                                                                                                                                       "mode":  "absolute",
+                                                                                                                                                       "steps":  [
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "green",
+                                                                                                                                                                         "value":  0
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "#EAB839",
+                                                                                                                                                                         "value":  0.001
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "red",
+                                                                                                                                                                         "value":  1
+                                                                                                                                                                     }
+                                                                                                                                                                 ]
+                                                                                                                                                   },
+                                                                                                                                    "unit":  "short",
+                                                                                                                                    "decimals":  null
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "colorMode":  "value",
+                                                                                                               "graphMode":  "area",
+                                                                                                               "justifyMode":  "auto",
+                                                                                                               "orientation":  "auto",
+                                                                                                               "percentChangeColorMode":  "standard",
+                                                                                                               "reduceOptions":  {
+                                                                                                                                     "calcs":  [
+                                                                                                                                                   "lastNotNull"
+                                                                                                                                               ],
+                                                                                                                                     "fields":  "",
+                                                                                                                                     "values":  false
+                                                                                                                                 },
+                                                                                                               "showPercentChange":  false,
+                                                                                                               "textMode":  "auto",
+                                                                                                               "wideLayout":  true
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
+                                               },
+                                  "panel-32":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+                                                                                                          {
+                                                                                                              "kind":  "PanelQuery",
+                                                                                                              "spec":  {
+                                                                                                                           "hidden":  false,
+                                                                                                                           "query":  {
+                                                                                                                                         "datasource":  {
+                                                                                                                                                            "name":  "dersvir5pux34c"
+                                                                                                                                                        },
+                                                                                                                                         "group":  "influxdb",
+                                                                                                                                         "kind":  "DataQuery",
+                                                                                                                                         "spec":  {
+                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_igc\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/ and r.interface =~ /^${interface:regex}$/)\n  |\u003e keep(columns: [\"_time\", \"_value\", \"interface\"])\n  |\u003e group(columns: [])\n  |\u003e last()\n  |\u003e map(fn: (r) =\u003e ({ r with _value: float(v: uint(v: v.timeRangeStop) - uint(v: r._time)) / 1000000000.0, interface: \"igc1\" }))\n  |\u003e keep(columns: [\"_time\", \"_value\", \"interface\"])\n  |\u003e yield(name: \"igc_last_sample_age_seconds\")"
+                                                                                                                                                  },
+                                                                                                                                         "version":  "v0"
+                                                                                                                                     },
+                                                                                                                           "refId":  "A"
+                                                                                                                       }
+                                                                                                          }
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Seconds between the dashboard range stop and the last opnsense_igc sample. No data remains no data.",
+                                                                "id":  32,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "igc1 last sample age",
+                                                                "vizConfig":  {
+                                                                                  "group":  "stat",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+                                                                                                                                    "color":  {
+                                                                                                                                                  "mode":  "thresholds"
+                                                                                                                                              },
+                                                                                                                                    "thresholds":  {
+                                                                                                                                                       "mode":  "absolute",
+                                                                                                                                                       "steps":  [
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "green",
+                                                                                                                                                                         "value":  0
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "#EAB839",
+                                                                                                                                                                         "value":  60
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "red",
+                                                                                                                                                                         "value":  180
+                                                                                                                                                                     }
+                                                                                                                                                                 ]
+                                                                                                                                                   },
+                                                                                                                                    "unit":  "s",
+                                                                                                                                    "decimals":  null
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "colorMode":  "value",
+                                                                                                               "graphMode":  "area",
+                                                                                                               "justifyMode":  "auto",
+                                                                                                               "orientation":  "auto",
+                                                                                                               "percentChangeColorMode":  "standard",
+                                                                                                               "reduceOptions":  {
+                                                                                                                                     "calcs":  [
+                                                                                                                                                   "lastNotNull"
+                                                                                                                                               ],
+                                                                                                                                     "fields":  "",
+                                                                                                                                     "values":  false
+                                                                                                                                 },
+                                                                                                               "showPercentChange":  false,
+                                                                                                               "textMode":  "auto",
+                                                                                                               "wideLayout":  true
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
+                                               },
+                                  "panel-33":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+                                                                                                          {
+                                                                                                              "kind":  "PanelQuery",
+                                                                                                              "spec":  {
+                                                                                                                           "hidden":  false,
+                                                                                                                           "query":  {
+                                                                                                                                         "datasource":  {
+                                                                                                                                                            "name":  "dersvir5pux34c"
+                                                                                                                                                        },
+                                                                                                                                         "group":  "influxdb",
+                                                                                                                                         "kind":  "DataQuery",
+                                                                                                                                         "spec":  {
+                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_igc\")\n  |\u003e filter(fn: (r) =\u003e r._field == \"link_irq\" or r._field == \"watchdog_timeouts\" or r._field == \"crc_errs\" or r._field == \"symbol_errors\" or r._field == \"recv_errs\" or r._field == \"missed_packets\" or r._field == \"rx_overruns\" or r._field == \"dropped\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/ and r.interface =~ /^${interface:regex}$/)\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |\u003e keep(columns: [\"_time\", \"_value\", \"interface\", \"_field\"])\n  |\u003e group(columns: [\"interface\", \"_field\"])\n  |\u003e yield(name: \"igc_raw_counters\")"
+                                                                                                                                                  },
+                                                                                                                                         "version":  "v0"
+                                                                                                                                     },
+                                                                                                                           "refId":  "A"
+                                                                                                                       }
+                                                                                                          }
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Raw opnsense_igc counters for igc1. These are cumulative counters, not rates.",
+                                                                "id":  33,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "igc1 raw driver counters",
+                                                                "vizConfig":  {
+                                                                                  "group":  "timeseries",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+                                                                                                                                    "color":  {
+                                                                                                                                                  "mode":  "thresholds"
+                                                                                                                                              },
+                                                                                                                                    "thresholds":  {
+                                                                                                                                                       "mode":  "absolute",
+                                                                                                                                                       "steps":  [
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "green",
+                                                                                                                                                                         "value":  0
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "#EAB839",
+                                                                                                                                                                         "value":  1
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "red",
+                                                                                                                                                                         "value":  10
+                                                                                                                                                                     }
+                                                                                                                                                                 ]
+                                                                                                                                                   },
+                                                                                                                                    "unit":  "short",
+                                                                                                                                    "decimals":  null
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "legend":  {
+                                                                                                                              "calcs":  [
+                                                                                                                                            "lastNotNull",
+                                                                                                                                            "max"
+                                                                                                                                        ],
+                                                                                                                              "displayMode":  "list",
+                                                                                                                              "placement":  "bottom",
+                                                                                                                              "showLegend":  true
+                                                                                                                          },
+                                                                                                               "tooltip":  {
+                                                                                                                               "mode":  "multi",
+                                                                                                                               "sort":  "none"
+                                                                                                                           }
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
+                                               },
+                                  "panel-34":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+                                                                                                          {
+                                                                                                              "kind":  "PanelQuery",
+                                                                                                              "spec":  {
+                                                                                                                           "hidden":  false,
+                                                                                                                           "query":  {
+                                                                                                                                         "datasource":  {
+                                                                                                                                                            "name":  "dersvir5pux34c"
+                                                                                                                                                        },
+                                                                                                                                         "group":  "influxdb",
+                                                                                                                                         "kind":  "DataQuery",
+                                                                                                                                         "spec":  {
+                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_igc\")\n  |\u003e filter(fn: (r) =\u003e r._field == \"watchdog_timeouts\" or r._field == \"crc_errs\" or r._field == \"symbol_errors\" or r._field == \"recv_errs\" or r._field == \"missed_packets\" or r._field == \"rx_overruns\" or r._field == \"dropped\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/ and r.interface =~ /^${interface:regex}$/)\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |\u003e group(columns: [\"interface\", \"_field\"])\n  |\u003e difference(nonNegative: true)\n  |\u003e keep(columns: [\"_time\", \"_value\", \"interface\", \"_field\"])\n  |\u003e yield(name: \"igc_error_counter_increments\")"
+                                                                                                                                                  },
+                                                                                                                                         "version":  "v0"
+                                                                                                                                     },
+                                                                                                                           "refId":  "A"
+                                                                                                                       }
+                                                                                                          }
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Non-negative differences of error counters. Positive increments show new driver-level errors during the selected range.",
+                                                                "id":  34,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "igc1 error counter increments",
+                                                                "vizConfig":  {
+                                                                                  "group":  "timeseries",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+                                                                                                                                    "color":  {
+                                                                                                                                                  "mode":  "thresholds"
+                                                                                                                                              },
+                                                                                                                                    "thresholds":  {
+                                                                                                                                                       "mode":  "absolute",
+                                                                                                                                                       "steps":  [
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "green",
+                                                                                                                                                                         "value":  0
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "#EAB839",
+                                                                                                                                                                         "value":  0.001
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "red",
+                                                                                                                                                                         "value":  1
+                                                                                                                                                                     }
+                                                                                                                                                                 ]
+                                                                                                                                                   },
+                                                                                                                                    "unit":  "short",
+                                                                                                                                    "decimals":  null
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "legend":  {
+                                                                                                                              "calcs":  [
+                                                                                                                                            "lastNotNull",
+                                                                                                                                            "max"
+                                                                                                                                        ],
+                                                                                                                              "displayMode":  "list",
+                                                                                                                              "placement":  "bottom",
+                                                                                                                              "showLegend":  true
+                                                                                                                          },
+                                                                                                               "tooltip":  {
+                                                                                                                               "mode":  "multi",
+                                                                                                                               "sort":  "none"
+                                                                                                                           }
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
+                                               },
+                                  "panel-35":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+                                                                                                          {
+                                                                                                              "kind":  "PanelQuery",
+                                                                                                              "spec":  {
+                                                                                                                           "hidden":  false,
+                                                                                                                           "query":  {
+                                                                                                                                         "datasource":  {
+                                                                                                                                                            "name":  "dersvir5pux34c"
+                                                                                                                                                        },
+                                                                                                                                         "group":  "influxdb",
+                                                                                                                                         "kind":  "DataQuery",
+                                                                                                                                         "spec":  {
+                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_igc\" and r._field == \"link_irq\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/ and r.interface =~ /^${interface:regex}$/)\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |\u003e keep(columns: [\"_time\", \"_value\", \"interface\"])\n  |\u003e group(columns: [\"interface\"])\n  |\u003e yield(name: \"igc_link_irq_raw\")"
+                                                                                                                                                  },
+                                                                                                                                         "version":  "v0"
+                                                                                                                                     },
+                                                                                                                           "refId":  "A"
+                                                                                                                       }
+                                                                                                          }
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Raw link_irq counter for igc1. Use this with link_irq increments and LAN ping failures.",
+                                                                "id":  35,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "igc1 link_irq raw",
+                                                                "vizConfig":  {
+                                                                                  "group":  "timeseries",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+                                                                                                                                    "color":  {
+                                                                                                                                                  "mode":  "thresholds"
+                                                                                                                                              },
+                                                                                                                                    "thresholds":  {
+                                                                                                                                                       "mode":  "absolute",
+                                                                                                                                                       "steps":  [
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "green",
+                                                                                                                                                                         "value":  0
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "#EAB839",
+                                                                                                                                                                         "value":  1
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "red",
+                                                                                                                                                                         "value":  10
+                                                                                                                                                                     }
+                                                                                                                                                                 ]
+                                                                                                                                                   },
+                                                                                                                                    "unit":  "short",
+                                                                                                                                    "decimals":  null
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "legend":  {
+                                                                                                                              "calcs":  [
+                                                                                                                                            "lastNotNull",
+                                                                                                                                            "max"
+                                                                                                                                        ],
+                                                                                                                              "displayMode":  "list",
+                                                                                                                              "placement":  "bottom",
+                                                                                                                              "showLegend":  true
+                                                                                                                          },
+                                                                                                               "tooltip":  {
+                                                                                                                               "mode":  "multi",
+                                                                                                                               "sort":  "none"
+                                                                                                                           }
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
+                                               },
+                                  "panel-36":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+                                                                                                          {
+                                                                                                              "kind":  "PanelQuery",
+                                                                                                              "spec":  {
+                                                                                                                           "hidden":  false,
+                                                                                                                           "query":  {
+                                                                                                                                         "datasource":  {
+                                                                                                                                                            "name":  "dersvir5pux34c"
+                                                                                                                                                        },
+                                                                                                                                         "group":  "influxdb",
+                                                                                                                                         "kind":  "DataQuery",
+                                                                                                                                         "spec":  {
+                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_igc\" and r._field == \"link_irq\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/ and r.interface =~ /^${interface:regex}$/)\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |\u003e group(columns: [\"interface\"])\n  |\u003e difference(nonNegative: true)\n  |\u003e keep(columns: [\"_time\", \"_value\", \"interface\"])\n  |\u003e yield(name: \"igc_link_irq_increments\")"
+                                                                                                                                                  },
+                                                                                                                                         "version":  "v0"
+                                                                                                                                     },
+                                                                                                                           "refId":  "A"
+                                                                                                                       }
+                                                                                                          }
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Non-negative difference of link_irq. Positive increments may correlate with link flaps or driver interrupts, but are not proof by themselves.",
+                                                                "id":  36,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "igc1 link_irq increments",
+                                                                "vizConfig":  {
+                                                                                  "group":  "timeseries",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+                                                                                                                                    "color":  {
+                                                                                                                                                  "mode":  "thresholds"
+                                                                                                                                              },
+                                                                                                                                    "thresholds":  {
+                                                                                                                                                       "mode":  "absolute",
+                                                                                                                                                       "steps":  [
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "green",
+                                                                                                                                                                         "value":  0
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "#EAB839",
+                                                                                                                                                                         "value":  0.001
+                                                                                                                                                                     },
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "red",
+                                                                                                                                                                         "value":  1
+                                                                                                                                                                     }
+                                                                                                                                                                 ]
+                                                                                                                                                   },
+                                                                                                                                    "unit":  "short",
+                                                                                                                                    "decimals":  null
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "legend":  {
+                                                                                                                              "calcs":  [
+                                                                                                                                            "lastNotNull",
+                                                                                                                                            "max"
+                                                                                                                                        ],
+                                                                                                                              "displayMode":  "list",
+                                                                                                                              "placement":  "bottom",
+                                                                                                                              "showLegend":  true
+                                                                                                                          },
+                                                                                                               "tooltip":  {
+                                                                                                                               "mode":  "multi",
+                                                                                                                               "sort":  "none"
+                                                                                                                           }
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
+                                               },
+                                  "panel-37":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+                                                                                                          {
+                                                                                                              "kind":  "PanelQuery",
+                                                                                                              "spec":  {
+                                                                                                                           "hidden":  false,
+                                                                                                                           "query":  {
+                                                                                                                                         "datasource":  {
+                                                                                                                                                            "name":  "dersvir5pux34c"
+                                                                                                                                                        },
+                                                                                                                                         "group":  "influxdb",
+                                                                                                                                         "kind":  "DataQuery",
+                                                                                                                                         "spec":  {
+                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_igc\")\n  |\u003e filter(fn: (r) =\u003e r._field == \"link_irq\" or r._field == \"watchdog_timeouts\" or r._field == \"crc_errs\" or r._field == \"symbol_errors\" or r._field == \"recv_errs\" or r._field == \"missed_packets\" or r._field == \"rx_overruns\" or r._field == \"dropped\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/ and r.interface =~ /^${interface:regex}$/)\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |\u003e group(columns: [\"interface\", \"_field\"])\n  |\u003e difference(nonNegative: true)\n  |\u003e filter(fn: (r) =\u003e r._value \u003e 0)\n  |\u003e map(fn: (r) =\u003e ({ _time: r._time, interface: r.interface, counter: r._field, increment: r._value }))\n  |\u003e sort(columns: [\"_time\"], desc: true)\n  |\u003e limit(n: 30)\n  |\u003e yield(name: \"igc_recent_nonzero_increments\")"
+                                                                                                                                                  },
+                                                                                                                                         "version":  "v0"
+                                                                                                                                     },
+                                                                                                                           "refId":  "A"
+                                                                                                                       }
+                                                                                                          }
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Recent positive increments across link_irq and driver error counters.",
+                                                                "id":  37,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "igc1 recent non-zero driver increments",
+                                                                "vizConfig":  {
+                                                                                  "group":  "table",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+                                                                                                                                    "color":  {
+                                                                                                                                                  "mode":  "thresholds"
+                                                                                                                                              },
+                                                                                                                                    "thresholds":  {
+                                                                                                                                                       "mode":  "absolute",
+                                                                                                                                                       "steps":  [
+                                                                                                                                                                     {
+                                                                                                                                                                         "color":  "green",
+                                                                                                                                                                         "value":  0
+                                                                                                                                                                     }
+                                                                                                                                                                 ]
+                                                                                                                                                   }
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "cellHeight":  "sm",
+                                                                                                               "footer":  {
+                                                                                                                              "show":  false,
+                                                                                                                              "reducer":  [
+                                                                                                                                              "sum"
+                                                                                                                                          ]
+                                                                                                                          },
+                                                                                                               "showHeader":  true
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
+                                               },
+                                  "panel-38":  {
+                                                   "kind":  "Panel",
+                                                   "spec":  {
+                                                                "data":  {
+                                                                             "kind":  "QueryGroup",
+                                                                             "spec":  {
+                                                                                          "queries":  [
+
+                                                                                                      ],
+                                                                                          "queryOptions":  {
+
+                                                                                                           },
+                                                                                          "transformations":  [
+
+                                                                                                              ]
+                                                                                      }
+                                                                         },
+                                                                "description":  "Interpretation notes for opnsense_igc panels.",
+                                                                "id":  38,
+                                                                "links":  [
+
+                                                                          ],
+                                                                "title":  "How to read igc1 counters",
+                                                                "vizConfig":  {
+                                                                                  "group":  "text",
+                                                                                  "kind":  "VizConfig",
+                                                                                  "spec":  {
+                                                                                               "fieldConfig":  {
+                                                                                                                   "defaults":  {
+
+                                                                                                                                },
+                                                                                                                   "overrides":  [
+
+                                                                                                                                 ]
+                                                                                                               },
+                                                                                               "options":  {
+                                                                                                               "mode":  "markdown",
+                                                                                                               "content":  "Counters are cumulative. Raw zero is not enough to prove health if telemetry is missing; use last sample age and sample presence. Positive increments in CRC, symbol, receive, missed, overrun, dropped, or watchdog counters are stronger evidence of physical/link/driver issues. `link_irq` increments are correlation signals and should be compared with CRS310 ping loss, interface errors/drops, and uptime/link events."
+                                                                                                           }
+                                                                                           },
+                                                                                  "version":  "13.1.1"
+                                                                              }
+                                                            }
                                                }
                               },
                  "layout":  {
@@ -2698,6 +3616,149 @@
                                                                             "width":  12,
                                                                             "x":  12,
                                                                             "y":  62
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-28"
+                                                                                        },
+                                                                            "height":  4,
+                                                                            "width":  24,
+                                                                            "x":  0,
+                                                                            "y":  69
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-29"
+                                                                                        },
+                                                                            "height":  4,
+                                                                            "width":  6,
+                                                                            "x":  0,
+                                                                            "y":  73
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-30"
+                                                                                        },
+                                                                            "height":  4,
+                                                                            "width":  6,
+                                                                            "x":  6,
+                                                                            "y":  73
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-31"
+                                                                                        },
+                                                                            "height":  4,
+                                                                            "width":  6,
+                                                                            "x":  12,
+                                                                            "y":  73
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-32"
+                                                                                        },
+                                                                            "height":  4,
+                                                                            "width":  6,
+                                                                            "x":  18,
+                                                                            "y":  73
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-33"
+                                                                                        },
+                                                                            "height":  7,
+                                                                            "width":  12,
+                                                                            "x":  0,
+                                                                            "y":  77
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-34"
+                                                                                        },
+                                                                            "height":  7,
+                                                                            "width":  12,
+                                                                            "x":  12,
+                                                                            "y":  77
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-35"
+                                                                                        },
+                                                                            "height":  7,
+                                                                            "width":  12,
+                                                                            "x":  0,
+                                                                            "y":  84
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-36"
+                                                                                        },
+                                                                            "height":  7,
+                                                                            "width":  12,
+                                                                            "x":  12,
+                                                                            "y":  84
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-37"
+                                                                                        },
+                                                                            "height":  7,
+                                                                            "width":  12,
+                                                                            "x":  0,
+                                                                            "y":  91
+                                                                        }
+                                                           },
+                                                           {
+                                                               "kind":  "GridLayoutItem",
+                                                               "spec":  {
+                                                                            "element":  {
+                                                                                            "kind":  "ElementReference",
+                                                                                            "name":  "panel-38"
+                                                                                        },
+                                                                            "height":  7,
+                                                                            "width":  12,
+                                                                            "x":  12,
+                                                                            "y":  91
                                                                         }
                                                            }
                                                        ]

@@ -11,6 +11,7 @@ Generated from sanitized InfluxDB schema discovery for bucket `opnsense` over th
 - LAN ping target discovered from the actual `ping.url` tag: `192.168.50.4`.
 - Local incident data maps `192.168.50.4` to `sw01-crs310`, so the dashboard treats it as the CRS310 LAN control target.
 - Interfaces discovered from the actual `net.interface` tag: `igc0`, `igc1`.
+- Driver-level Intel igc metrics discovered in `opnsense_igc` for `interface=igc1`.
 - Gateway tag/measurement was not discovered.
 - External multi-target ping was not discovered; Internet telemetry is available through `internet_speed` only.
 
@@ -21,6 +22,7 @@ Generated from sanitized InfluxDB schema discovery for bucket `opnsense` over th
 | opnsense | `ping` | `average_response_ms`, `maximum_response_ms`, `minimum_response_ms`, `packets_received`, `packets_transmitted`, `percent_packet_loss`, `result_code`, `standard_deviation_ms`, `ttl` | `host`, `url` | host: `gw01-i7505`; url: `192.168.50.4` | about 10s | ICMP control probe from OPNsense to CRS310 | LAN reachability loss, packet loss, latency spikes, jitter to the LAN switch |
 | opnsense | `internet_speed` | `download`, `jitter`, `latency`, `location`, `packet_loss`, `upload` | `host`, `server_id`, `source`, `test_mode` | host: `gw01-i7505`; source: `brake.vodafone.ua:8080`; test_mode: `single` | about 6m from samples | Periodic Internet speed/quality test | Internet packet loss, WAN/ISP latency and jitter correlation, throughput degradation |
 | opnsense | `net` | `bytes_recv`, `bytes_sent`, `drop_in`, `drop_out`, `err_in`, `err_out`, `packets_recv`, `packets_sent`, `speed` | `host`, `interface` | host: `gw01-i7505`; interface: `igc0`, `igc1` | about 10s | Interface counters for WAN/LAN ports | Traffic spikes, packet drops, interface errors, missing interface samples |
+| opnsense | `opnsense_igc` | `link_irq`, `watchdog_timeouts`, `crc_errs`, `symbol_errors`, `recv_errs`, `missed_packets`, `rx_overruns`, `dropped` | `host`, `interface` | host: `gw01-i7505`; interface: `igc1` | about 10s while samples are present | Intel igc driver counters for LAN interface diagnostics | Driver watchdog events, CRC/symbol/receive errors, missed packets, RX overruns, drops, and link interrupt changes that may correlate with LAN instability |
 | opnsense | `cpu` | `usage_guest`, `usage_guest_nice`, `usage_idle`, `usage_iowait`, `usage_irq`, `usage_nice`, `usage_softirq`, `usage_steal`, `usage_system`, `usage_user` | `cpu`, `host` | host: `gw01-i7505`; cpu: `cpu-total`, `cpu0`..`cpu3` | about 10s | OPNsense CPU utilization | Correlates routing/firewall stress with packet loss or latency |
 | opnsense | `mem` | `active`, `available`, `available_percent`, `buffered`, `cached`, `free`, `inactive`, `laundry`, `total`, `used`, `used_percent`, `wired` | `host` | host: `gw01-i7505` | about 10s | OPNsense memory use | Correlates memory pressure with network instability |
 | opnsense | `system` | `load1`, `load15`, `load5`, `n_cpus`, `n_physical_cpus`, `n_unique_users`, `n_users`, `uptime`, `uptime_format` | `host` | host: `gw01-i7505` | about 10s | Load and uptime | Correlates failures with reboot/uptime changes and host load |
@@ -37,7 +39,7 @@ Generated from sanitized InfluxDB schema discovery for bucket `opnsense` over th
 - No `gateway` tag or gateway measurement was discovered, so WAN gateway status cannot be asserted from metrics.
 - No external multi-target `ping` series was discovered; only CRS310 LAN control ping is present as `ping.url = 192.168.50.4`.
 - No PF state metric was discovered.
-- No interface link state metric was discovered.
+- No explicit interface link state metric was discovered. `opnsense_igc.link_irq` can help correlate driver/link events, but it is not a direct up/down state.
 - No CRS310 SNMP/interface telemetry was discovered.
 
 ## Recommended Telegraf Additions
@@ -47,3 +49,4 @@ Generated from sanitized InfluxDB schema discovery for bucket `opnsense` over th
 - Add interface link state collection for `igc0` and `igc1`.
 - Add SNMP telemetry from MikroTik CRS310 for port status, errors, discards, and switch CPU/temperature.
 - Add DNS probe metrics if Internet failures need DNS-vs-routing separation.
+
