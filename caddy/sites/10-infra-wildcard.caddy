@@ -72,6 +72,11 @@
 		reverse_proxy 192.168.50.43:3000
 	}
 
+	@loki host loki.infra.shshx.net
+	handle @loki {
+		reverse_proxy 192.168.50.47:3100
+	}
+
 	@pve01_n150 host pve01-n150.infra.shshx.net
 	handle @pve01_n150 {
 		reverse_proxy https://192.168.50.10:8006 {
