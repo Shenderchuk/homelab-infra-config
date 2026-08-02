@@ -1,0 +1,19 @@
+[Unit]
+Description=Homelab service backup staging for %i
+Wants=network-online.target
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart=/opt/homelab-backup/.venv/bin/homelab-backup run %i
+TimeoutStartSec=30min
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=/mnt/backup/services /var/lib/homelab-backup /var/log/homelab-backup
+ReadOnlyPaths=/mnt/configs /var/run/docker.sock

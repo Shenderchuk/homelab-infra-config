@@ -1,0 +1,41 @@
+service_id: app-example
+enabled: true
+
+docker:
+  enabled: true
+  compose_project: example
+  compose_service: example
+  container_name: null
+  consistency_mode: stop-container
+  stop_timeout_seconds: 30
+  start_timeout_seconds: 60
+  health_timeout_seconds: 120
+  require_healthy: false
+
+backup:
+  destination_root: /mnt/backup/services
+  destination_subdir: app-example/data
+  sources:
+    - source: /mnt/configs/example/
+      destination: .
+      required: true
+
+safety:
+  expected_mountpoint: /mnt/backup/services
+  require_mountpoint: true
+  minimum_free_space_mb: 1024
+  allowed_destination_prefix: /mnt/backup/services
+  preserve_last_successful_copy: true
+
+logging:
+  format: json
+  file_enabled: true
+  file_path: /var/log/homelab-backup/app-example.log
+
+status:
+  file_path: /var/lib/homelab-backup/status/app-example.json
+
+schedule:
+  on_calendar: "*-*-* 03:20:00"
+  persistent: true
+  randomized_delay_seconds: 0

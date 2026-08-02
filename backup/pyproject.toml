@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "homelab-backup"
+version = "0.1.0"
+description = "GitOps-managed local backup staging for homelab Docker services"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pydantic>=2,<3",
+  "PyYAML>=6,<7",
+  "python-json-logger>=2,<4",
+]
+
+[project.scripts]
+homelab-backup = "homelab_backup.cli:main"
+homelab-backup-deploy = "homelab_backup.deploy_cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+packages = ["homelab_backup"]
+strict = true
+warn_return_any = true

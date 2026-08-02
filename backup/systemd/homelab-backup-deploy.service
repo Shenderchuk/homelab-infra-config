@@ -1,0 +1,12 @@
+[Unit]
+Description=Deploy Homelab backup automation from Git
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart=/opt/homelab-backup/.venv/bin/homelab-backup-deploy update
+StandardOutput=journal
+StandardError=journal

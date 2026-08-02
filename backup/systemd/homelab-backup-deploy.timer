@@ -1,0 +1,12 @@
+[Unit]
+Description=Poll Git for Homelab backup automation changes
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=5min
+RandomizedDelaySec=30s
+Persistent=true
+Unit=homelab-backup-deploy.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,26 @@
+rsync:
+  archive: true
+  hard_links: true
+  acls: true
+  xattrs: true
+  numeric_ids: true
+  delete: true
+  delete_delay: true
+  inplace: false
+  excludes: []
+
+safety:
+  expected_mountpoint: /mnt/backup/services
+  require_mountpoint: true
+  minimum_free_space_mb: 1024
+  allowed_destination_prefix: /mnt/backup/services
+  preserve_last_successful_copy: true
+  reject_symlink_destination: true
+
+logging:
+  format: json
+  file_enabled: true
+
+schedule:
+  persistent: true
+  randomized_delay_seconds: 0

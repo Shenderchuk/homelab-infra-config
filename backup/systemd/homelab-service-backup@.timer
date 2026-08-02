@@ -1,0 +1,11 @@
+[Unit]
+Description=Schedule Homelab service backup staging for %i
+
+[Timer]
+OnCalendar=*-*-* 03:20:00
+Persistent=true
+RandomizedDelaySec=0
+Unit=homelab-service-backup@%i.service
+
+[Install]
+WantedBy=timers.target

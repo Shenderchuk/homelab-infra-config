@@ -1,0 +1,32 @@
+service_id: app-navidrome
+enabled: true
+
+docker:
+  enabled: true
+  compose_project: navidrome
+  compose_service: navidrome
+  container_name: null
+  consistency_mode: stop-container
+  stop_timeout_seconds: 30
+  start_timeout_seconds: 60
+  health_timeout_seconds: 120
+  require_healthy: false
+
+backup:
+  destination_root: /mnt/backup/services
+  destination_subdir: app-navidrome/data
+  sources:
+    - source: /mnt/configs/navidrome/
+      destination: .
+      required: true
+
+logging:
+  file_path: /var/log/homelab-backup/app-navidrome.log
+
+status:
+  file_path: /var/lib/homelab-backup/status/app-navidrome.json
+
+schedule:
+  on_calendar: "*-*-* 03:20:00"
+  persistent: true
+  randomized_delay_seconds: 0
