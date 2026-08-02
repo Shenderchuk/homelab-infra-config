@@ -6,7 +6,7 @@ import pytest
 
 from homelab_backup.exceptions import PreflightError
 from homelab_backup.models import ServiceConfig
-from homelab_backup.validation import validate_destination_paths
+from homelab_backup.validation import run_preflight, validate_destination_paths
 
 
 def make_config(destination_subdir: str = "app-test/data") -> ServiceConfig:
@@ -64,3 +64,31 @@ def test_validate_destination_paths_runtime_escape():
     object.__setattr__(config.safety, "allowed_destination_prefix", Path("/other"))
     with pytest.raises(PreflightError):
         validate_destination_paths(config)
+
+
+def test_dry_run_preflight_allows_missing_service_destination(tmp_path, monkeypatch):
+    source = tmp_path / "source"
+    source.mkdir()
+    root = tmp_path / "backup"
+    root.mkdir()
+    config = ServiceConfig.model_validate(
+        {
+            "service_id": "app-test",
+            "docker": {"enabled": False},
+            "backup": {
+                "destination_root": str(root),
+                "destination_subdir": "app-test/data",
+                "sources": [{"source": str(source)}],
+            },
+            "safety": {
+                "expected_mountpoint": str(root),
+                "require_mountpoint": False,
+                "allowed_destination_prefix": str(root),
+                "minimum_free_space_mb": 0,
+            },
+            "status": {"file_path": str(tmp_path / "status" / "app-test.json")},
+        }
+    )
+    monkeypatch.setattr("homelab_backup.validation.require_binary", lambda name: name)
+    run_preflight(config, create_destination=False)
+    assert not (root / "app-test").exists()

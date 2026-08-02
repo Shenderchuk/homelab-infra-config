@@ -60,7 +60,11 @@ def run_preflight(
     if create_destination:
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.mkdir(parents=True, exist_ok=True)
-    writable_target = destination if destination.exists() else destination.parent
+        writable_target = destination
+    else:
+        writable_target = destination if destination.exists() else destination.parent
+        while not writable_target.exists() and writable_target != root:
+            writable_target = writable_target.parent
     if not writable_target.exists():
         raise PreflightError(f"destination parent does not exist: {writable_target}")
     if not os.access(writable_target, os.W_OK):
