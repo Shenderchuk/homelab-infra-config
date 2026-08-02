@@ -1,0 +1,3 @@
+http://backrest {
+	reverse_proxy 192.168.50.48:9898
+}
