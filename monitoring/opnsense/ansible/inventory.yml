@@ -1,0 +1,8 @@
+all:
+  children:
+    opnsense:
+      hosts:
+        gw01-i7505:
+          ansible_host: gw01-i7505
+          ansible_user: root
+          ansible_python_interpreter: /usr/local/bin/python3

@@ -1,0 +1,76 @@
+---
+- name: Persist and verify OPNsense coretemp module
+  hosts: opnsense
+  gather_facts: false
+
+  vars:
+    coretemp_loader_file: /boot/loader.conf.local
+    coretemp_loader_line: 'coretemp_load="YES"'
+    coretemp_module_file: /boot/kernel/coretemp.ko
+    temperature_script: /usr/local/bin/opnsense-temperature.sh
+
+  tasks:
+    - name: Check coretemp kernel module exists
+      ansible.builtin.stat:
+        path: "{{ coretemp_module_file }}"
+      register: coretemp_module
+
+    - name: Fail if coretemp kernel module is missing
+      ansible.builtin.fail:
+        msg: "{{ coretemp_module_file }} is missing on {{ inventory_hostname }}"
+      when: not coretemp_module.stat.exists
+
+
+    - name: Persist coretemp loader setting
+      ansible.builtin.lineinfile:
+        path: "{{ coretemp_loader_file }}"
+        regexp: '^coretemp_load='
+        line: "{{ coretemp_loader_line }}"
+        owner: root
+        group: wheel
+        mode: "0644"
+        create: true
+
+    - name: Check whether coretemp is loaded
+      ansible.builtin.command: kldstat -q -m cpu/coretemp
+      register: coretemp_loaded
+      changed_when: false
+      failed_when: false
+      check_mode: false
+
+    - name: Load coretemp for current boot
+      ansible.builtin.command: kldload coretemp
+      when:
+        - coretemp_loaded.rc != 0
+        - not ansible_check_mode
+      changed_when: true
+
+    - name: Verify coretemp is loaded
+      ansible.builtin.command: kldstat -q -m cpu/coretemp
+      changed_when: false
+      check_mode: false
+
+    - name: Verify CPU temperature sysctl exists
+      ansible.builtin.command: sysctl -n dev.cpu.0.temperature
+      register: cpu0_temperature
+      changed_when: false
+      check_mode: false
+
+    - name: Check whether OPNsense temperature script exists
+      ansible.builtin.stat:
+        path: "{{ temperature_script }}"
+      register: opnsense_temperature_script
+
+    - name: Verify OPNsense temperature script emits CPU core metrics
+      ansible.builtin.shell: "{{ temperature_script }} | grep 'type=cpu_core'"
+      register: temperature_script_cpu_core
+      changed_when: false
+      check_mode: false
+      when: opnsense_temperature_script.stat.exists
+
+    - name: Show CPU temperature verification
+      ansible.builtin.debug:
+        msg:
+          - "coretemp loader setting: {{ coretemp_loader_line }}"
+          - "dev.cpu.0.temperature: {{ cpu0_temperature.stdout }}"
+          - "temperature script CPU metrics: {{ temperature_script_cpu_core.stdout_lines | default(['script not present']) }}"
