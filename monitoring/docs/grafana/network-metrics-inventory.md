@@ -12,6 +12,8 @@ Generated from sanitized InfluxDB schema discovery for bucket `opnsense` over th
 - Local incident data maps `192.168.50.4` to `sw01-crs310`, so the dashboard treats it as the CRS310 LAN control target.
 - Interfaces discovered from the actual `net.interface` tag: `igc0`, `igc1`.
 - Driver-level Intel igc metrics discovered in `opnsense_igc` for `interface=igc1`.
+- Current `opnsense_temperature` samples over the last 24 hours only include `sensor=acpi_tz0`, `type=acpi_zone`; CPU core temperature samples last appeared on 2026-08-01T17:13:40Z and are not currently exposed through `dev.cpu.*.temperature` on OPNsense.
+- No SSD/NVMe temperature measurement is present in Influx before deploying the GitOps-managed OPNsense temperature script; `nvmecontrol logpage -p 2 nda0` exposes composite and sensor temperatures on the host.
 - Gateway tag/measurement was not discovered.
 - External multi-target ping was not discovered; Internet telemetry is available through `internet_speed` only.
 
@@ -26,7 +28,7 @@ Generated from sanitized InfluxDB schema discovery for bucket `opnsense` over th
 | opnsense | `cpu` | `usage_guest`, `usage_guest_nice`, `usage_idle`, `usage_iowait`, `usage_irq`, `usage_nice`, `usage_softirq`, `usage_steal`, `usage_system`, `usage_user` | `cpu`, `host` | host: `gw01-i7505`; cpu: `cpu-total`, `cpu0`..`cpu3` | about 10s | OPNsense CPU utilization | Correlates routing/firewall stress with packet loss or latency |
 | opnsense | `mem` | `active`, `available`, `available_percent`, `buffered`, `cached`, `free`, `inactive`, `laundry`, `total`, `used`, `used_percent`, `wired` | `host` | host: `gw01-i7505` | about 10s | OPNsense memory use | Correlates memory pressure with network instability |
 | opnsense | `system` | `load1`, `load15`, `load5`, `n_cpus`, `n_physical_cpus`, `n_unique_users`, `n_users`, `uptime`, `uptime_format` | `host` | host: `gw01-i7505` | about 10s | Load and uptime | Correlates failures with reboot/uptime changes and host load |
-| opnsense | `opnsense_temperature` | `value` | `host`, `sensor`, `type` | host: `gw01-i7505`; type: `cpu_core`, `acpi_zone`; sensor: `cpu0`..`cpu3`, `acpi_tz0` | about 10s | CPU and ACPI temperature telemetry | Correlates thermal issues with instability |
+| opnsense | `opnsense_temperature` | `value` | `host`, `sensor`, `type`; GitOps-managed NVMe samples also add `device` | host: `gw01-i7505`; current type: `acpi_zone`; expected after deploy: `acpi_zone`, `nvme_composite`, `nvme_sensor`; optional if exposed again: `cpu_core` | about 10s | OPNsense thermal telemetry | Correlates thermal issues with instability |
 | opnsense | `processes` | `blocked`, `idle`, `running`, `sleeping`, `stopped`, `total`, `unknown`, `wait`, `zombies` | `host` | host: `gw01-i7505` | about 10s | Process state counts | Correlates process pressure with OPNsense responsiveness |
 | opnsense | `swap` | `free`, `in`, `out`, `total`, `used`, `used_percent` | `host` | host: `gw01-i7505` | about 10s | Swap use | Correlates memory exhaustion with network failures |
 | opnsense | `disk` | `free`, `inodes_free`, `inodes_total`, `inodes_used`, `inodes_used_percent`, `total`, `used`, `used_percent` | `device`, `fstype`, `host`, `mode`, `path` | host: `gw01-i7505` | about 10s | Filesystem capacity | General host health; not directly used for network fault isolation |
@@ -48,5 +50,6 @@ Generated from sanitized InfluxDB schema discovery for bucket `opnsense` over th
 - Add an OPNsense exec/API metric for gateway monitor status and PF state count/limit.
 - Add interface link state collection for `igc0` and `igc1`.
 - Add SNMP telemetry from MikroTik CRS310 for port status, errors, discards, and switch CPU/temperature.
+- Deploy `monitoring/opnsense/bin/opnsense-temperature.sh` to add NVMe SSD temperatures from native FreeBSD `nvmecontrol` output.
 - Add DNS probe metrics if Internet failures need DNS-vs-routing separation.
 

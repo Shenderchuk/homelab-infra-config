@@ -1318,7 +1318,7 @@
                                                                                                                },
                                                                                                "options":  {
                                                                                                                "mode":  "markdown",
-                                                                                                               "content":  "Supported: OPNsense to CRS310 LAN control path, interface counters on `igc0`/`igc1`, Internet speed-test loss/latency/jitter, CPU/load/memory/uptime/temperature correlation. Not supported from discovered metrics: WAN gateway up/down, one external target vs all external targets, PF state pressure, and link state timeline. Those conclusions are intentionally not automated to avoid false precision."
+                                                                                                               "content":  "Supported: OPNsense to CRS310 LAN control path, interface counters on `igc0`/`igc1`, Internet speed-test loss/latency/jitter, CPU/load/memory/uptime/thermal correlation. Not supported from discovered metrics: WAN gateway up/down, one external target vs all external targets, PF state pressure, and link state timeline. Those conclusions are intentionally not automated to avoid false precision."
                                                                                                            }
                                                                                            },
                                                                                   "version":  "13.1.1"
@@ -2047,7 +2047,7 @@
                                                                                                                                          "group":  "influxdb",
                                                                                                                                          "kind":  "DataQuery",
                                                                                                                                          "spec":  {
-                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_temperature\" and r._field == \"value\" and r.type == \"cpu_core\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/)\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |\u003e group(columns: [\"_time\"])\n  |\u003e max(column: \"_value\")\n  |\u003e group(columns: [])\n  |\u003e map(fn: (r) =\u003e ({ r with sensor: \"max CPU core\" }))\n  |\u003e keep(columns: [\"_time\", \"_value\", \"sensor\"])\n  |\u003e yield(name: \"cpu_max_temperature\")"
+                                                                                                                                                      "query":  "from(bucket: \"opnsense\")\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |\u003e filter(fn: (r) =\u003e r._measurement == \"opnsense_temperature\" and r._field == \"value\")\n  |\u003e filter(fn: (r) =\u003e r.host =~ /^${host:regex}$/)\n  |\u003e map(fn: (r) =\u003e ({ r with device: if exists r.device then r.device else \"opnsense\" }))\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |\u003e group(columns: [\"_time\"])\n  |\u003e max(column: \"_value\")\n  |\u003e group(columns: [])\n  |\u003e map(fn: (r) =\u003e ({ r with sensor: \"max thermal sensor\" }))\n  |\u003e keep(columns: [\"_time\", \"_value\", \"sensor\"])\n  |\u003e yield(name: \"max_temperature\")"
                                                                                                                                                   },
                                                                                                                                          "version":  "v0"
                                                                                                                                      },
@@ -2063,12 +2063,12 @@
                                                                                                               ]
                                                                                       }
                                                                          },
-                                                                "description":  "Maximum CPU core temperature from opnsense_temperature.",
+                                                                "description":  "Maximum observed OPNsense temperature from opnsense_temperature across ACPI, CPU when available, and NVMe sensors.",
                                                                 "id":  24,
                                                                 "links":  [
 
                                                                           ],
-                                                                "title":  "OPNsense CPU max temperature",
+                                                                "title":  "OPNsense max temperature",
                                                                 "vizConfig":  {
                                                                                   "group":  "timeseries",
                                                                                   "kind":  "VizConfig",

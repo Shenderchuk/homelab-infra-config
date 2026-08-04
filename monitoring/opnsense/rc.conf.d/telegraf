@@ -1,0 +1,5 @@
+telegraf_user="root"
+telegraf_group="wheel"
+telegraf_setup="/usr/local/opnsense/scripts/OPNsense/Telegraf/setup.sh"
+telegraf_enable="YES"
+telegraf_confdir="/usr/local/etc/telegraf.d"

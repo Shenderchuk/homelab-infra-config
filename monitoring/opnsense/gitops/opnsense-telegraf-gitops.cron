@@ -1,0 +1,4 @@
+SHELL=/bin/sh
+PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+* * * * * root /usr/local/bin/flock -n /tmp/opnsense-telegraf-gitops.lock /opt/infra-config/monitoring/opnsense/gitops/opnsense-telegraf-gitops-sync.sh >/var/log/opnsense-telegraf-gitops.log 2>&1
