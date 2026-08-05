@@ -638,7 +638,8 @@
               "fieldConfig": {
                 "defaults": {
                   "color": {
-                    "mode": "thresholds"
+                    "mode": "palette-classic",
+                    "seriesBy": "max"
                   },
                   "custom": {
                     "axisBorderShow": false,
@@ -647,7 +648,7 @@
                     "axisLabel": "",
                     "axisPlacement": "auto",
                     "barAlignment": 0,
-                    "barWidthFactor": 0.6,
+                    "barWidthFactor": 0.9,
                     "drawStyle": "line",
                     "fillOpacity": 0,
                     "gradientMode": "none",
@@ -658,12 +659,15 @@
                     },
                     "insertNulls": false,
                     "lineInterpolation": "linear",
+                    "lineStyle": {
+                      "fill": "solid"
+                    },
                     "lineWidth": 1,
-                    "pointSize": 5,
+                    "pointSize": 1,
                     "scaleDistribution": {
                       "type": "linear"
                     },
-                    "showPoints": "auto",
+                    "showPoints": "always",
                     "showValues": false,
                     "spanNulls": false,
                     "stacking": {
