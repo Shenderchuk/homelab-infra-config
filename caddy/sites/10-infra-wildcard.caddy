@@ -120,5 +120,15 @@
 		reverse_proxy 192.168.50.41:8123
 	}
 
+	@victron host victron.infra.shshx.net
+	handle @victron {
+		redir / /gui-v2/
+		reverse_proxy https://192.168.50.30 {
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
+
 	respond "Unknown local service" 404
 }
