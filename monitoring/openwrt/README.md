@@ -1,7 +1,5 @@
-﻿# OpenWrt monitoring preparation
+﻿# OpenWrt monitoring
 
-Telegraf configuration targets gw02-i7505 and reads InfluxDB settings from environment variables. This is a starting configuration, not an installed or validated deployment.
+The router gw02-i7505 runs Telegraf and sends metrics to the OpenWrt InfluxDB bucket. The tracked configuration is a template: populate its InfluxDB URL, organization, bucket and token securely on the router. The live service configuration may also contain site-specific settings; preserve those when updating it.
 
-The existing Loki Alloy receiver on 192.168.50.47 UDP 1515 labels data as MikroTik. Add a separate RFC3164 listener with OpenWrt labels before configuring OpenWrt remote syslog; do not reuse the MikroTik listener.
-
-Grafana and InfluxDB health endpoints were reachable on inspection. The provided Influx token could query the existing bucket; write permissions and a suitable OpenWrt bucket remain to be verified. Grafana API returned 401 for the supplied token. Rotate or replace that token before dashboard provisioning.
+Install OpenWrt package `lm-sensors` and enable `inputs.sensors` in the active Telegraf configuration. It collects CPU package and core, NVMe, and ACPI readings when the kernel exposes them. Readings use measurement `sensors`, field `temp_input`, and `chip` and `feature` tags. Missing sensors produce no series. Validate with `sensors -j` and `telegraf --config /etc/telegraf.conf --test --input-filter sensors`.
